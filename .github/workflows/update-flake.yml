@@ -50,3 +50,13 @@ jobs:
       - name: Push updated package to Cachix
         run: |
           cachix push flpdsk-llama "$RUNNER_TEMP/llama-cpp-cuda"
+                
+      - name: Pin current llama.cpp
+        run: |
+          LLAMA_PATH="$(readlink -f "$RUNNER_TEMP/llama-cpp-cuda")"
+
+          cachix pin \
+            flpdsk-llama \
+            llama-current \
+            "$LLAMA_PATH" \
+            --keep-revisions 1
